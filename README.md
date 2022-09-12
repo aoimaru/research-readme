@@ -246,7 +246,27 @@ RUN set -ex \      ...  |
 
 
 
+RUN set -ex \      ...  |
+    && buildDeps=' ...  |
+    && apt-get upda...  |
+    && apt-get inst...  |
+    && rm -rf /var/...  |
+    && wget -O ruby...  |   ['0.84677651', '0.92379878', '0.75155011', '...', '0.20286531']
+    && echo '$RUBY_...  |
+    && mkdir -p /us...  |
+    && tar -xJf rub...  |
+    && rm ruby.tar....  |
+    && cd /usr/src/...  |
 
+
+
+※1  set -ex \      ...  |
+※2  && buildDeps=' ...  |
+※3  && apt-get upda...  | 
+※4  && apt-get inst...  |   ['0.84677651', '0.92379878', '0.75155011', '...', '0.20286531']
+
+※10 && rm ruby.tar....  | 
+※11 && cd /usr/src/...  |
 
 
 
