@@ -379,6 +379,85 @@ RUN set -ex \      ...  |
 
 
 
+```
+
+
+
+
+
+
+```bash
+
+query = [
+        ['SC-WGET', 'SC-WGET-OUTPUT-DOCUMENT', 'BASH-PATH', 'BASH-LITERAL', 'ABS-MAYBE-PATH'],
+        ['SC-WGET', 'SC-WGET-OUTPUT-DOCUMENT', 'BASH-PATH', 'BASH-LITERAL', 'ABS-PATH-ABSOLUTE'],
+        ['SC-WGET', 'SC-WGET-URL', 'BASH-LITERAL', 'ABS-PROBABLY-URL'],
+        ['SC-WGET', 'SC-WGET-URL', 'BASH-LITERAL', 'ABS-URL-PROTOCOL-HTTPS'],
+        ['SC-WGET', 'SC-WGET-OUTPUT-DOCUMENT', 'BASH-PATH', 'BASH-LITERAL', 'ABS-MAYBE-PATH'],
+        ['SC-WGET', 'SC-WGET-OUTPUT-DOCUMENT', 'BASH-PATH', 'BASH-LITERAL', 'ABS-PATH-ABSOLUTE'],
+        ['SC-WGET', 'SC-WGET-OUTPUT-DOCUMENT', 'BASH-PATH', 'BASH-LITERAL', 'ABS-EXTENSION-ASC'],
+        ['SC-WGET', 'SC-WGET-URL', 'BASH-LITERAL', 'ABS-PROBABLY-URL'],
+        ['SC-WGET', 'SC-WGET-URL', 'BASH-LITERAL', 'ABS-URL-PROTOCOL-HTTPS'],
+        ['SC-WGET', 'SC-WGET-URL', 'BASH-LITERAL', 'ABS-EXTENSION-ASC'],
+        ['SC-EXPORT', 'SC-EXPORT-TARGET', 'BASH-ASSIGN', 'BASH-ASSIGN-LHS', 'BASH-VARIABLE:GNUPGHOME'],
+        ['SC-EXPORT', 'SC-EXPORT-TARGET', 'BASH-ASSIGN', 'BASH-ASSIGN-RHS', 'BASH-DOUBLE-QUOTED', 'BASH-DOLLAR-PARENS', 'SC-MKTEMP', 'SC-MKTEMP-F-DIRECTORY'],
+        ['SC-GPG', 'SC-GPG-F-BATCH'],
+        ['SC-GPG', 'SC-GPG-KEYSERVER', 'BASH-LITERAL', 'ABS-PROBABLY-URL'],
+        ['SC-GPG', 'SC-GPG-KEYSERVER', 'BASH-LITERAL', 'ABS-URL-HA-POOL'],
+        ['SC-GPG', 'SC-GPG-KEYSERVER', 'BASH-LITERAL', 'ABS-URL-POOL'],
+        ['SC-GPG', 'SC-GPG-RECV-KEYS', 'SC-GPG-RECV-KEY', 'BASH-LITERAL'],
+        ['SC-GPG', 'SC-GPG-F-BATCH'],
+        ['SC-GPG', 'SC-GPG-VERIFYS', 'SC-GPG-VERIFY', 'BASH-LITERAL', 'ABS-MAYBE-PATH'],
+        ['SC-GPG', 'SC-GPG-VERIFYS', 'SC-GPG-VERIFY', 'BASH-LITERAL', 'ABS-PATH-ABSOLUTE'],
+        ['SC-GPG', 'SC-GPG-VERIFYS', 'SC-GPG-VERIFY', 'BASH-LITERAL', 'ABS-EXTENSION-ASC'],
+        ['SC-GPG', 'SC-GPG-VERIFYS', 'SC-GPG-VERIFY', 'BASH-LITERAL', 'ABS-MAYBE-PATH'],
+        ['SC-GPG', 'SC-GPG-VERIFYS', 'SC-GPG-VERIFY', 'BASH-LITERAL', 'ABS-PATH-ABSOLUTE'],
+        ['SC-RM', 'SC-RM-F-RECURSIVE'],
+        ['SC-RM', 'SC-RM-PATHS', 'SC-RM-PATH', 'BASH-LITERAL'],
+        ['SC-RM', 'SC-RM-PATHS', 'SC-RM-PATH', 'BASH-LITERAL', 'ABS-MAYBE-PATH'],
+        ['SC-RM', 'SC-RM-PATHS', 'SC-RM-PATH', 'BASH-LITERAL', 'ABS-PATH-ABSOLUTE'],
+        ['SC-RM', 'SC-RM-PATHS', 'SC-RM-PATH', 'BASH-LITERAL', 'ABS-EXTENSION-ASC'],
+    ]
+
+
+
+
+
+RUN set -ex \
+	\
+	&& wget -O python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" \
+	&& wget -O python.tar.xz.asc "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc" \
+	&& export GNUPGHOME="$(mktemp -d)" \
+	&& gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "$GPG_KEY" \
+	&& gpg --batch --verify python.tar.xz.asc python.tar.xz \
+	&& { command -v gpgconf > /dev/null && gpgconf --kill all || :; } \
+	&& rm -rf "$GNUPGHOME" python.tar.xz.asc \
+	&& mkdir -p /usr/src/python \
+	&& tar -xJC /usr/src/python --strip-components=1 -f python.tar.xz \
+	&& rm python.tar.xz \
+	\
+	&& cd /usr/src/python \
+	&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
+	&& ./configure \
+		--build="$gnuArch" \
+		--enable-loadable-sqlite-extensions \
+		--enable-shared \
+		--with-system-expat \
+		--with-system-ffi \
+		--without-ensurepip \
+	&& make -j "$(nproc)" \
+	&& make install \
+	&& ldconfig \
+	\
+	&& find /usr/local -depth \
+		\( \
+			\( -type d -a \( -name test -o -name tests \) \) \
+			-o \
+			\( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
+		\) -exec rm -rf '{}' + \
+	&& rm -rf /usr/src/python \
+	\
+	&& python3 --version
 
 
 ```
