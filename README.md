@@ -81,6 +81,95 @@ RUN set -ex \
 	\
 	&& cd /usr/src/ruby \
 
+
+# sha256sum ハッシュ値の確認
+
+
+
+RUN ... && \
+    wget -O [obj.tar.xz] [URL] && \
+    echo " *** obj.tar.xz" | sha256sum -c && \
+    mkdir -p [directory/obj] && \
+    tar -xJf [obj.tar.xz] -C [directory/obj] && \
+    rm [obj.tar.xz] && \
+    cd [directory/obj]
+    ...
+
+
+NG 
+
+RUN ... && \
+    wget -O [obj.tar.xz] [URL] && \
+    mkdir -p [directory/obj] && \
+    tar -xJf [obj.tar.xz] -C [directory/obj] && \
+    rm [obj.tar.xz] && \
+    cd [directory/obj]
+    ...
+    
+
+NG
+
+
+RUN ... && \
+    wget -O [obj.tar.xz] [URL] && \
+    mkdir -p [directory/obj] && \
+    tar -xJf [obj.tar.xz] -C [directory/obj] && \
+    cd [directory/obj]
+    ...
+    rm [obj.tar.xz] && \
+    ...
+
+
+NG 
+
+RUN ... && \
+    tar -xJf [obj.tar.xz] -C [directory/obj] && \
+    cd [directory/obj]
+    mkdir -p [directory/obj] && \
+    wget -O [obj.tar.xz] [URL] && \
+    rm [obj.tar.xz] && \
+    ...
+
+
+NG 
+
+RUN ... && \
+    wget -O [obj.tar.xz] [URL] && \
+    mkdir -p [directory/obj] && \
+    tar -xJf [obj.tar.xz] -C [directory/obj] && \
+    rm [obj.tar.xz] && \
+    cd [directory/obj]
+    ...
+
+
+
+NG
+
+RUN set -ex \
+	\
+	&& buildDeps=' \
+		bison \
+		dpkg-dev \
+		libgdbm-dev \
+		ruby \
+	' \
+	&& apt-get update \
+	&& apt-get install -y --no-install-recommends $buildDeps \
+	&& rm -rf /var/lib/apt/lists/* \
+	\
+	&& wget -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz" \
+	&& echo "$RUBY_DOWNLOAD_SHA256 *ruby.tar.xz" | sha256sum -c - \
+	\
+	&& mkdir -p /usr/src/ruby \
+	&& tar -xJf ruby.tar.xz -C /usr/src/ruby --strip-components=1 \
+	&& rm ruby.tar.xz \
+	\
+	&& cd /usr/src/ruby \
+
+
+
+
+
 ```
 
 ```bash
@@ -161,6 +250,10 @@ RUN set -ex \
 ※9  && tar -xJf rub... ---> ['0.98464268', '0.64775028', '0.18442020', '...', '0.15227497']
 ※10 && rm ruby.tar.... ---> ['0.80608755', '0.69243218', '0.82781117', '...', '0.96637163']
 ※11 && cd /usr/src/... ---> ['0.36719873', '0.39741394', '0.43383427', '...', '0.36633562']
+
+
+
+
 
 
 ***
