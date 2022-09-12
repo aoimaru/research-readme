@@ -388,6 +388,9 @@ RUN set -ex \      ...  |
 
 ```bash
 
+('ba805b53bf85b9b973529e6b258030334378c7fc:6', 0.7329501780604638)
+
+
 query = [
         ['SC-WGET', 'SC-WGET-OUTPUT-DOCUMENT', 'BASH-PATH', 'BASH-LITERAL', 'ABS-MAYBE-PATH'],
         ['SC-WGET', 'SC-WGET-OUTPUT-DOCUMENT', 'BASH-PATH', 'BASH-LITERAL', 'ABS-PATH-ABSOLUTE'],
@@ -460,4 +463,95 @@ RUN set -ex \
 	&& python3 --version
 
 
+('bed9c0d43acadbd0e3b65c2f5f653ad0f7af0c05:1', 0.733756566010243)
+
+
+['SC-APT-GET-UPDATE']
+['SC-APT-GET-INSTALL', 'SC-APT-GET-F-YES']
+['SC-APT-GET-INSTALL', 'SC-APT-GET-F-NO-INSTALL-RECOMMENDS']
+['SC-APT-GET-INSTALL', 'SC-APT-GET-PACKAGES', 'SC-APT-GET-PACKAGE:CA-CERTIFICATES']
+['SC-APT-GET-INSTALL', 'SC-APT-GET-PACKAGES', 'SC-APT-GET-PACKAGE:CURL']
+['SC-APT-GET-INSTALL', 'SC-APT-GET-PACKAGES', 'SC-APT-GET-PACKAGE:BUILD-ESSENTIAL']
+['SC-APT-GET-INSTALL', 'SC-APT-GET-PACKAGES', 'SC-APT-GET-PACKAGE:PKG-CONFIG']
+['SC-APT-GET-INSTALL', 'SC-APT-GET-PACKAGES', 'SC-APT-GET-PACKAGE:GIT']
+['SC-APT-GET-INSTALL', 'SC-APT-GET-PACKAGES', 'SC-APT-GET-PACKAGE:PYTHON']
+
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+		ca-certificates \
+		curl \
+		build-essential \
+		pkg-config \
+		git \
+		python \
+	&& rm -rf /var/lib/apt/lists/*
+
+# verify gpg and sha256: http://nodejs.org/dist/v0.10.31/SHASUMS256.txt.asc
+# gpg: aka "Timothy J Fontaine (Work) <tj.fontaine@joyent.com>"
+RUN gpg --keyserver pool.sks-keyservers.net --recv-keys 7937DFD2AB06298B2293C3187D33FF9D0246406D
+
+ENV NODE_VERSION 0.10.35
+ENV NPM_VERSION 2.1.18
+
+RUN curl -SLO "http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
+	&& curl -SLO "http://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
+	&& gpg --verify SHASUMS256.txt.asc \
+	&& grep " node-v$NODE_VERSION-linux-x64.tar.gz\$" SHASUMS256.txt.asc | sha256sum -c - \
+	&& tar -xzf "node-v$NODE_VERSION-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
+	&& rm "node-v$NODE_VERSION-linux-x64.tar.gz" SHASUMS256.txt.asc \
+	&& npm install -g npm@"$NPM_VERSION" \
+	&& npm cache clear
+
+CMD [ "node" ]
+
+
+('03d0ce54ce53227355e070a6d0d1ec1cdf986a29:10', 0.7560843477924944)
+
+['SC-WGET', 'SC-WGET-OUTPUT-DOCUMENT', 'BASH-PATH', 'BASH-LITERAL', 'ABS-EXTENSION-TAR']
+['SC-WGET', 'SC-WGET-URL', 'BASH-LITERAL', 'ABS-PROBABLY-URL']
+['SC-WGET', 'SC-WGET-URL', 'BASH-LITERAL', 'ABS-URL-PROTOCOL-HTTPS']
+['SC-WGET', 'SC-WGET-URL', 'BASH-LITERAL', 'ABS-EXTENSION-TAR']
+['BASH-PIPELINE', 'SC-ECHO', 'SC-ECHO-ITEMS', 'SC-ECHO-ITEM', 'BASH-LITERAL', 'ABS-SINGLE-SPACE']
+['BASH-PIPELINE', 'SC-ECHO', 'SC-ECHO-ITEMS', 'SC-ECHO-ITEM', 'BASH-LITERAL', 'ABS-EXTENSION-TAR']
+['BASH-PIPELINE']
+['SC-TAR', 'SC-TAR-X']
+['SC-TAR', 'SC-TAR-V']
+['SC-TAR', 'SC-TAR-FILE', 'BASH-PATH', 'BASH-LITERAL', 'ABS-EXTENSION-TAR']
+['SC-TAR', 'SC-TAR-STRIP-COMPONENTS', 'BASH-LITERAL']
+['SC-RM', 'SC-RM-PATHS', 'SC-RM-PATH', 'BASH-LITERAL', 'ABS-EXTENSION-TAR']
+['SC-RM', 'SC-RM-PATHS', 'SC-RM-PATH', 'BASH-LITERAL', 'ABS-PROBABLY-URL']
+['SC-RM', 'SC-RM-PATHS', 'SC-RM-PATH', 'BASH-LITERAL', 'ABS-PROBABLY-URL']
+['SC-MKDIR', 'SC-MKDIR-F-PARENTS']
+['SC-MKDIR', 'SC-MKDIR-PATHS', 'SC-MKDIR-PATH', 'BASH-LITERAL']
+['SC-MKDIR', 'SC-MKDIR-PATHS', 'SC-MKDIR-PATH', 'BASH-LITERAL']
+['SC-MKDIR', 'SC-MKDIR-PATHS', 'SC-MKDIR-PATH', 'BASH-LITERAL']
+['SC-MKDIR', 'SC-MKDIR-PATHS', 'SC-MKDIR-PATH', 'BASH-LITERAL']
+['SC-MKDIR', 'SC-MKDIR-PATHS', 'SC-MKDIR-PATH', 'BASH-LITERAL']
+['SC-CHOWN', 'SC-CHOWN-F-RECURSIVE']
+['SC-CHOWN', 'SC-CHOWN-OWNER', 'BASH-LITERAL']
+['SC-CHOWN', 'SC-CHOWN-PATHS', 'SC-CHOWN-PATH', 'BASH-LITERAL', 'ABS-MAYBE-PATH']
+['SC-CHOWN', 'SC-CHOWN-PATHS', 'SC-CHOWN-PATH', 'BASH-LITERAL', 'ABS-PATH-RELATIVE']
+['BASH-REDIRECT', 'BASH-REDIRECT-COMMAND', 'SC-ECHO', 'SC-ECHO-ITEMS', 'SC-ECHO-ITEM', 'BASH-LITERAL', 'ABS-SINGLE-SPACE']
+['BASH-REDIRECT', 'BASH-REDIRECT-REDIRECTS', 'BASH-REDIRECT-OVERWRITE', 'BASH-PATH', 'BASH-LITERAL']
+['SC-CHMOD', 'SC-CHMOD-F-RECURSIVE']
+['SC-CHMOD', 'SC-CHMOD-MODE', 'BASH-LITERAL']
+['SC-CHMOD', 'SC-CHMOD-PATHS', 'SC-CHMOD-PATH', 'BASH-LITERAL']
+['SC-CHMOD', 'SC-CHMOD-PATHS', 'SC-CHMOD-PATH', 'BASH-LITERAL']
+['SC-CHMOD', 'SC-CHMOD-PATHS', 'SC-CHMOD-PATH', 'BASH-LITERAL']
+
+
+
+RUN wget -O redmine.tar.gz "https://www.redmine.org/releases/redmine-${REDMINE_VERSION}.tar.gz" \
+	&& echo "$REDMINE_DOWNLOAD_MD5 redmine.tar.gz" | md5sum -c - \
+	&& tar -xvf redmine.tar.gz --strip-components=1 \
+	&& rm redmine.tar.gz files/delete.me log/delete.me \
+	&& mkdir -p log public/plugin_assets sqlite tmp/pdf tmp/pids \
+	&& chown -R redmine:redmine ./ \
+# log to STDOUT (https://github.com/docker-library/redmine/issues/108)
+	&& echo 'config.logger = Logger.new(STDOUT)' > config/additional_environment.rb \
+# fix permissions for running as an arbitrary user
+	&& chmod -R ugo=rwX config db sqlite \
+	&& find log tmp -type d -exec chmod 1777 '{}' +
+
+    
 ```
