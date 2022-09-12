@@ -96,6 +96,20 @@ RUN ... && \
     ...
 
 
+
+キーワード
+
+
+
+keyword
+
+
+    "wget -O"
+    "mkdir -p"
+    "rm"
+    "tar -xJf"
+    "cd"
+
 NG 
 
 RUN ... && \
