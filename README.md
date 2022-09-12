@@ -116,7 +116,7 @@ RUN ... && \
     tar -xJf [obj.tar.xz] -C [directory/obj] && \
     cd [directory/obj]
     ...
-    rm [obj.tar.xz] && \
+    rm [obj-2.tar.xz] && \
     ...
 
 
