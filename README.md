@@ -708,18 +708,26 @@ RUN set -x \
 ※11 && cd /usr/src/... ---> ['0.36719873', '0.39741394', '0.43383427', '...', '0.36633562']
 
 
-※1  set -ex \      ... : -- vec※1 --> 
-※2  && buildDeps=' ... : -- vec※2 --> 
-※3  && apt-get upda... : -- vec※3 --> 
-※4  && apt-get inst... : -- vec※4 --> 
-※5  && rm -rf /var/... : -- vec※5 --> 
-※6  && wget -O ruby... : -- vec※6 --> 
-※7  && echo '$RUBY_... : -- vec※7 --> 
-※8  && mkdir -p /us... : -- vec※8 --> 
-※9  && tar -xJf rub... : -- vec※9 --> 
-※10 && rm ruby.tar.... : -- vec※10--> 
-※11 && cd /usr/src/... : -- vec※11--> 
+※1  set -ex \      ... : -- vec_1 --> 
+※2  && buildDeps=' ... : -- vec_2 --> 
+※3  && apt-get upda... : -- vec_3 --> 
+※4  && apt-get inst... : -- vec_4 --> 
+※5  && rm -rf /var/... : -- vec_5 --> 
+※6  && wget -O ruby... : -- vec_6 --> 
+※7  && echo '$RUBY_... : -- vec_7 --> 
+※8  && mkdir -p /us... : -- vec_8 --> 
+※9  && tar -xJf rub... : -- vec_9 --> 
+※10 && rm ruby.tar.... : -- vec_10--> 
+※11 && cd /usr/src/... : -- vec_11--> 
 
 
+[※1 set -ex \   ...]
+[※2 buildDeps=  ...]
+[※3 apt-get upda...]
+[※4 apt-get inst...]
+[※5 rm -rf /var/...]
+[※6 wget -O ruby...]
+
+[※1 set -ex \   ...][※1 set -ex \   ...][※1 set -ex \   ...][※1 set -ex \   ...]
 
 ```
