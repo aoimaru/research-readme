@@ -647,7 +647,8 @@ RUN [A_1, A_2, A_3, A_4, A_5] && \
 FROM debian:stretch-slim
 
 # explicitly set user/group IDs
-RUN groupadd -r cassandra --gid=999 && useradd -r -g cassandra --uid=999 cassandra
+RUN groupadd -r cassandra --gid=999 && \
+	useradd -r -g cassandra --uid=999 cassandra
 
 RUN set -ex; \
 	apt-get update; \
@@ -670,7 +671,9 @@ RUN set -ex; \
 # grab gosu for easy step-down from root
 ENV GOSU_VERSION 1.10
 RUN set -x \
-	&& apt-get update && apt-get install -y --no-install-recommends ca-certificates wget && rm -rf /var/lib/apt/lists/* \
+	&& apt-get update \
+	&& apt-get install -y --no-install-recommends ca-certificates wget \
+	&& rm -rf /var/lib/apt/lists/* \
 	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
 	&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
 	&& export GNUPGHOME="$(mktemp -d)" \
@@ -683,5 +686,5 @@ RUN set -x \
 	&& apt-get purge -y --auto-remove ca-certificates wget
 	
 
-	
+
 ```
