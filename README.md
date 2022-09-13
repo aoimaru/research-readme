@@ -553,5 +553,135 @@ RUN wget -O redmine.tar.gz "https://www.redmine.org/releases/redmine-${REDMINE_V
 	&& chmod -R ugo=rwX config db sqlite \
 	&& find log tmp -type d -exec chmod 1777 '{}' +
 
-    
+
+```
+
+
+
+```bash
+
+
+
+['SC-APT-GET-UPDATE']
+['SC-APT-GET-UPDATE']
+['SC-APT-GET-INSTALL', 'SC-APT-GET-F-YES']
+['SC-APT-GET-INSTALL', 'SC-APT-GET-F-NO-INSTALL-RECOMMENDS']
+['SC-APT-GET-INSTALL', 'SC-APT-GET-PACKAGES', 'SC-APT-GET-PACKAGE:CA-CERTIFICATES']
+['SC-APT-GET-INSTALL', 'SC-APT-GET-PACKAGES', 'SC-APT-GET-PACKAGE:CURL']
+['SC-APT-GET-INSTALL', 'SC-APT-GET-PACKAGES','SC-APT-GET-PACKAGE:BUILD-ESSENTIAL']
+['SC-APT-GET-INSTALL', 'SC-APT-GET-PACKAGES', 'SC-APT-GET-PACKAGE:PKG-CONFIG']
+['SC-APT-GET-INSTALL', 'SC-APT-GET-PACKAGES', 'SC-APT-GET-PACKAGE:GIT']
+['SC-APT-GET-INSTALL', 'SC-APT-GET-PACKAGES', 'SC-APT-GET-PACKAGE:PYTHON']
+['SC-RM', 'SC-RM-F-RECURSIVE']
+['SC-RM', 'SC-RM-F-FORCE']
+['SC-RM', 'SC-RM-PATHS', 'SC-RM-PATH', 'BASH-LITERAL', 'ABS-MAYBE-PATH']
+['SC-RM', 'SC-RM-PATHS', 'SC-RM-PATH', 'BASH-LITERAL', 'ABS-PATH-ABSOLUTE']
+['SC-RM', 'SC-RM-PATHS', 'SC-RM-PATH', 'BASH-LITERAL', 'ABS-MAYBE-SRC-DIR']
+['SC-RM', 'SC-RM-PATHS', 'SC-RM-PATH', 'BASH-LITERAL', 'ABS-USR-SRC-DIR']
+
+
+
+
+RUN set -ex; \
+	{ \
+		echo "mariadb-server-$MARIADB_MAJOR" mysql-server/root_password password 'unused'; \
+		echo "mariadb-server-$MARIADB_MAJOR" mysql-server/root_password_again password 'unused'; \
+	} | debconf-set-selections; \
+	apt-get update; \
+	apt-get install -y \
+		"mariadb-server=$MARIADB_VERSION" \
+# mariadb-backup is installed at the same time so that `mysql-common` is only installed once from just mariadb repos
+		mariadb-backup-10.2 \
+		socat \
+	; \
+	rm -rf /var/lib/apt/lists/*; \
+# comment out any "user" entires in the MySQL config ("docker-entrypoint.sh" or "--user" will handle user switching)
+	sed -ri 's/^user\s/#&/' /etc/mysql/my.cnf /etc/mysql/conf.d/*; \
+# purge and re-create /var/lib/mysql with appropriate ownership
+	rm -rf /var/lib/mysql; \
+	mkdir -p /var/lib/mysql /var/run/mysqld; \
+	chown -R mysql:mysql /var/lib/mysql /var/run/mysqld; \
+# ensure that /var/run/mysqld (used for socket and lock files) is writable regardless of the UID our mysqld instance ends up having at runtime
+	chmod 777 /var/run/mysqld; \
+# comment out a few problematic configuration values
+	find /etc/mysql/ -name '*.cnf' -print0 \
+		| xargs -0 grep -lZE '^(bind-address|log)' \
+		| xargs -rt -0 sed -Ei 's/^(bind-address|log)/#&/'; \
+# don't reverse lookup hostnames, they are usually another container
+	echo '[mysqld]\nskip-host-cache\nskip-name-resolve' > /etc/mysql/conf.d/docker.cnf
+
+
+```
+
+
+```bash
+
+
+
+RUN [A_1, A_2, A_3, A_4, A_5] && \
+    [B_1, B_2, B_3, B_4, B_5] && \
+    [C_1, C_2, C_3, C_4, C_5] && \
+    [D_1, D_2, D_3, D_4, D_5] && \
+
+
+    [A_1_1, A_1_2, A_1_3, A_1_4, A_1_5]
+    [A_2_1, A_2_2, A_2_3]
+    [A_3_1, A_3_2, A_3_3, A_3_4]
+    [A_4_1, A_4_2, A_4_3, A_4_4, A_4_5]
+
+
+
+    [A_2_1, A_2_2, A_2_3, A_2_2, A_2_1]
+
+
+
+
+```
+
+
+```bash
+
+
+
+# vim:set ft=dockerfile:
+FROM debian:stretch-slim
+
+# explicitly set user/group IDs
+RUN groupadd -r cassandra --gid=999 && useradd -r -g cassandra --uid=999 cassandra
+
+RUN set -ex; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
+# solves warning: "jemalloc shared library could not be preloaded to speed up memory allocations"
+		libjemalloc1 \
+# free is used by cassandra-env.sh
+		procps \
+# "ip" is not required by Cassandra itself, but is commonly used in scripting Cassandra's configuration (since it is so fixated on explicit IP addresses)
+		iproute2 \
+	; \
+	if ! command -v gpg > /dev/null; then \
+		apt-get install -y --no-install-recommends \
+			dirmngr \
+			gnupg \
+		; \
+	fi; \
+	rm -rf /var/lib/apt/lists/*
+
+# grab gosu for easy step-down from root
+ENV GOSU_VERSION 1.10
+RUN set -x \
+	&& apt-get update && apt-get install -y --no-install-recommends ca-certificates wget && rm -rf /var/lib/apt/lists/* \
+	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
+	&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
+	&& export GNUPGHOME="$(mktemp -d)" \
+	&& gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+	&& gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
+	&& { command -v gpgconf && gpgconf --kill all || :; } \
+	&& rm -rf "$GNUPGHOME" /usr/local/bin/gosu.asc \
+	&& chmod +x /usr/local/bin/gosu \
+	&& gosu nobody true \
+	&& apt-get purge -y --auto-remove ca-certificates wget
+	
+
+	
 ```
