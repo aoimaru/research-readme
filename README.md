@@ -859,4 +859,26 @@ RUN set -x \
 
 
 
+※2  && buildDeps=  ... --> ['0.20118536', '0.07181952', '...', '0.23453401']
+※3  && apt-get upda... --> ['0.72694017', '0.74088527', '...', '0.39210436']
+※4  && apt-get inst... --> ['0.60229535', '0.89038788', '...', '0.64637082']
+※5  && rm -rf /var/... --> ['0.06039495', '0.01400599', '...', '0.69068759']
+
+
+※1  && wget -O ruby... --> query_vec_1 :['0.47584121', '0.22825153', '...', '0.52057977']
+※2  && echo  $RUBY_... --> query_vec_2 :['0.32533716', '0.17752849', '...', '0.22831389']
+※3  && mkdir -p /us... --> query_vec_3 :['0.31146458', '0.93469031', '...', '0.55286649']
+※4  && tar -xJf rub... --> query_vec_4 :['0.98464268', '0.64775028', '...', '0.15227497']
+
+
+RUN
+	...
+	&& wget -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz" \
+	&& echo "$RUBY_DOWNLOAD_SHA256 *ruby.tar.xz" | sha256sum -c - \
+	\
+	&& mkdir -p /usr/src/ruby \
+	&& tar -xJf ruby.tar.xz -C /usr/src/ruby --strip-components=1 \
+	&& rm ruby.tar.xz \
+	...
+
 ```
