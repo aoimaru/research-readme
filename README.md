@@ -734,17 +734,42 @@ RUN set -x \
 ※11 && cd /usr/src/... --> vec_11:['0.36719873', '0.39741394', '...', '0.36633562']
 
 
-※1  set -ex \      ... --> vec_1 
-※2  && buildDeps=' ... --> vec_2 
-※3  && apt-get upda... --> vec_3 
-※4  && apt-get inst... --> vec_4 
-※5  && rm -rf /var/... --> vec_5 
-※6  && wget -O ruby... --> vec_6 
-※7  && echo '$RUBY_... --> vec_7 
-※8  && mkdir -p /us... --> vec_8 
-※9  && tar -xJf rub... --> vec_9 
-※10 && rm ruby.tar.... --> vec_10
-※11 && cd /usr/src/... --> vec_11
+※1  set -ex \      ... --> vec_1 :
+※2  && buildDeps=  ... --> vec_2 :
+※3  && apt-get upda... --> vec_3 :
+※4  && apt-get inst... --> vec_4 :
+※5  && rm -rf /var/... --> vec_5 :
+※6  && wget -O ruby... --> vec_6 :
+※7  && echo  $RUBY_... --> vec_7 :
+※8  && mkdir -p /us... --> vec_8 :
+※9  && tar -xJf rub... --> vec_9 :
+※10 && rm ruby.tar.... --> vec_10:
+※11 && cd /usr/src/... --> vec_11:
+
+
+※1  set -ex \      ... --> 
+※2  && buildDeps=' ... --> 
+※3  && apt-get upda... --> 
+※4  && apt-get inst... -->
+※5  && rm -rf /var/... --> 
+※6  && wget -O ruby... --> vec_* :['0.84677651', '0.92379878', '...', '0.20286531']
+※7  && echo '$RUBY_... -->  
+※8  && mkdir -p /us... --> 
+※9  && tar -xJf rub... --> 
+※10 && rm ruby.tar.... --> 
+※11 && cd /usr/src/... --> 
+
+※1  set -ex \      ... -| 
+※2  && buildDeps=' ... -| 
+※3  && apt-get upda... -| 
+※4  && apt-get inst... -| 
+※5  && rm -rf /var/... -| 
+※6  && wget -O ruby... -|-> vec_*: ['0.84677651', '0.92379878', '...', '0.20286531']
+※7  && echo '$RUBY_... -| 
+※8  && mkdir -p /us... -| 
+※9  && tar -xJf rub... -| 
+※10 && rm ruby.tar.... -| 
+※11 && cd /usr/src/... -| 
 
 
 ※1  set -ex \      ... : -- vec_1 --> 
