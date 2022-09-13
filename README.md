@@ -798,6 +798,17 @@ RUN set -x \
 [※3 apt-get upda...][※3 apt-get upda...][※3 apt-get upda...][※3 apt-get upda...] --> [※3 apt-get upda...]
 
 
+["          "]["cmd_vec_1 "]["cmd_vec_2 "]["cmd_vec_3 "]              ["run_vec_* "]
+["cmd_vec_1 "]["cmd_vec_2 "]["cmd_vec_3 "]["cmd_vec_4 "]              ["run_vec_* "]
+["cmd_vec_2 "]["cmd_vec_3 "]["cmd_vec_4 "]["cmd_vec_5 "]              ["run_vec_* "]
+["cmd_vec_3 "]["cmd_vec_4 "]["cmd_vec_5 "]["cmd_vec_6 "]              ["run_vec_* "]
+
+
+["cmd_vec_6 "]["cmd_vec_7 "]["cmd_vec_8 "]["cmd_vec_9 "]              ["run_vec_* "]
+["cmd_vec_7 "]["cmd_vec_8 "]["cmd_vec_9 "]["cmd_vec_10"]              ["run_vec_* "]
+
+
+
 ["          "]["cmd_vec_1 "]["cmd_vec_2 "]["cmd_vec_3 "] --> ["run_vec_* "]
 ["cmd_vec_1 "]["cmd_vec_2 "]["cmd_vec_3 "]["cmd_vec_4 "] --> ["run_vec_* "]
 ["cmd_vec_2 "]["cmd_vec_3 "]["cmd_vec_4 "]["cmd_vec_5 "] --> ["run_vec_* "]
@@ -806,6 +817,7 @@ RUN set -x \
 
 ["cmd_vec_6 "]["cmd_vec_7 "]["cmd_vec_8 "]["cmd_vec_9 "] --> ["run_vec_* "]
 ["cmd_vec_7 "]["cmd_vec_8 "]["cmd_vec_9 "]["cmd_vec_10"] --> ["run_vec_* "]
+
 
 
 
