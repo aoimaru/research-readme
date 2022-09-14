@@ -936,4 +936,25 @@ grep "wget -O" |
 ./deduplicated-sources-gold/46146eb0c2ad8dccdf2df8ee87c89605a3180a3d.Dockerfile
 
 
+
+※query_1 : < wget -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz" >
+※query_2 : < echo "$RUBY_DOWNLOAD_SHA256 *ruby.tar.xz" | sha256sum -c - >
+※query_3 : < mkdir -p /usr/src/ruby >
+※query_4 : < tar -xJf ruby.tar.xz -C /usr/src/ruby --strip-components=1 >
+
+
+
+
+※vec_1   :['0.47584121', '0.22825153', '...', '0.52057977']
+※vec_2   :['0.32533716', '0.17752849', '...', '0.22831389']
+※vec_3   :['0.31146458', '0.93469031', '...', '0.55286649']
+※vec_4   :['0.98464268', '0.64775028', '...', '0.15227497']
+
+
+
+
+※out_vec :['0.32533716', '0.17752849', '...', '0.22831389']
+
+
+
 ```
