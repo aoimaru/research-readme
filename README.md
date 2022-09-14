@@ -887,6 +887,10 @@ URL  : https?://[\w!\?/\+\-_~=;\.,\*&@#\$%\(\)'\[\]]+
 Email: [\w\-\._]+@[\w\-\._]+\.[A-Za-z]+
 
 
-grep "wget -O" | grep "mkdir -p" | grep "rm" | grep "tar -xJf" | grep "cd" -rl ./deduplicated-sources-gold  | wc -l
+grep "wget -O" | 
+\ grep "mkdir -p" | 
+\ grep "rm" | 
+\ grep "tar -xJf" | 
+\ grep "cd" -rl ./deduplicated-sources-gold  | wc -l
 
 ```
