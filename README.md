@@ -893,4 +893,35 @@ grep "wget -O" |
 \ grep "tar -xJf" | 
 \ grep "cd" -rl ./deduplicated-sources-gold  | wc -l
 
+
+
+~/D/leagal ❯❯❯ grep "wget -O" | grep "mkdir -p" | grep "rm" | grep "tar -xJf" | grep "cd"  -rl ./deduplicated-sources-gold                               ✘ 127
+./deduplicated-sources-gold/d0a7a33cad90bc506788da62fe4617372159cce0.Dockerfile
+./deduplicated-sources-gold/3da1e5be2520174f22c0f29a0078e49569be151d.Dockerfile
+./deduplicated-sources-gold/486c95e2e24a4cdccecf405cf316cd643824650e.Dockerfile
+./deduplicated-sources-gold/6bdc46f23236f247a7df69d0a1a529354924df04.Dockerfile
+./deduplicated-sources-gold/6e482708d3cafd1b0361e981702a95b023033688.Dockerfile
+./deduplicated-sources-gold/cd636feca30c0fecd812864b5381dd5d16c8e15a.Dockerfile
+./deduplicated-sources-gold/ea454ad2a9a42446cb9c57497d05b72d04de1249.Dockerfile
+./deduplicated-sources-gold/73862997d0efd4fe0044d1385cde7fb4e7effba4.Dockerfile
+./deduplicated-sources-gold/2f4b9caf535bcc4fe1ce72c621240d5c89fe0411.Dockerfile
+./deduplicated-sources-gold/21bc31687e218b23614520b7e818ae64f5f3de69.Dockerfile
+./deduplicated-sources-gold/603297d09551b7f42450566eb16dc1682c5a4aed.Dockerfile
+./deduplicated-sources-gold/a27c7d503a860f701d00c563ed695af03a5df72d.Dockerfile
+./deduplicated-sources-gold/587a179b228c2b592f30f09d42a1197d853dd665.Dockerfile
+./deduplicated-sources-gold/41d711ae650a667318ebf53c9ba3d5bbdb9bb892.Dockerfile
+./deduplicated-sources-gold/7abb94f2128445d47f90dff64fb8af6aa148deed.Dockerfile
+./deduplicated-sources-gold/217c60ffbc22133df5fc6cffa99426d1b552889d.Dockerfile
+./deduplicated-sources-gold/696f61780cc05c8c2600f87f58a6eee8749d29fe.Dockerfile
+./deduplicated-sources-gold/57e226605bfd29c975c229d29d2ed5bd7f48afe4.Dockerfile
+./deduplicated-sources-gold/c8f7e39cc87328ebd91d63dbc764ad7d73be3be9.Dockerfile
+./deduplicated-sources-gold/a8f77acefc49fc3cd97ae0fd6cbdf3c18212dc67.Dockerfile
+./deduplicated-sources-gold/f5cb1dcf6e839e51e9440c761838df24ec697e7f.Dockerfile
+./deduplicated-sources-gold/2822cecdbb823c5ad6be5072deb79c14eb5959fb.Dockerfile
+./deduplicated-sources-gold/8a96f06d7db90215d7dd133b8cc40e1e961152df.Dockerfile
+./deduplicated-sources-gold/cb7d8e3b16a8e5273808c27db2d73bff8a6717e3.Dockerfile
+./deduplicated-sources-gold/08faf411c5d4601b944a817c4180f94bed33adb2.Dockerfile
+./deduplicated-sources-gold/46146eb0c2ad8dccdf2df8ee87c89605a3180a3d.Dockerfile
+
+
 ```
