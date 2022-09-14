@@ -881,6 +881,12 @@ RUN
 	&& rm ruby.tar.xz \
 	...
 
+	※1 < wget -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz" >
+	※2 < echo "$RUBY_DOWNLOAD_SHA256 *ruby.tar.xz" | sha256sum -c - >
+	※3 < mkdir -p /usr/src/ruby >
+	※4 < tar -xJf ruby.tar.xz -C /usr/src/ruby --strip-components=1 >
+
+
 
 
 URL  : https?://[\w!\?/\+\-_~=;\.,\*&@#\$%\(\)'\[\]]+
