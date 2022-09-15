@@ -8,7 +8,7 @@
 FROM BASEIMAGE:TAG
 
 RUN command_1 && \
-command_2 && \
+    command_2 && \
 command_3 && \
 command_4 && \
 
