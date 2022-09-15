@@ -47,6 +47,12 @@ WORKDIR ${PATH}
 ENTRYPOINT [commands]
 
 
+[" command_1 ", " command_2 ", " command_3 "] --> ["RUN_N"]
+[" command_2 ", " command_3 ", " command_4 "] --> ["RUN_N"]
+
+["command_N-2", "command_N-1", " command_N "] --> ["RUN_N"]
+
+
 FROM debian:stretch-slim
 
 RUN groupadd -r cassandra --gid=999 && \
