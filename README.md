@@ -29,10 +29,10 @@ FROM BASEIMAGE:TAG
 RUN command_1 && \
     command_2 && \
     command_3 && \
-	command_4 && \
+    command_4 && \
 
-	command_n-2 && \
-	command_n-1 && \
+    command_n-2 && \
+    command_n-1 && \
     command_n
 
 ENV VERSION TAG
