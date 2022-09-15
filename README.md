@@ -8,15 +8,15 @@
 FROM BASEIMAGE:TAG
 
 RUN command_1 && \
-	command_2 && \
-	command_3 && \
-	command_4 && \
+command_2 && \
+command_3 && \
+command_4 && \
 
 ENV VERSION TAG
 
 RUN command_1 && \
-	command_2 && \
-	command_3 
+command_2 && \
+command_3 
 
 WORKDIR ${PATH}
 
