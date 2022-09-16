@@ -24,7 +24,37 @@ RUN set -x \
 ※Rank_9 : ('a27c7d503a860f701d00c563ed695af03a5df72d:6', 0.8375095129013062)
 ※Rank_10: ('636b8940f290f0557d21f498a240cbb2fc89d5a4:1', 0.8360953330993652)
 
+::Rank_1
 
+RUN set -ex \
+	\
+	&& savedAptMark="$(apt-mark showmanual)" \
+	&& apt-get update && apt-get install -y --no-install-recommends \
+		autoconf \
+		bison \
+		dpkg-dev \
+		gcc \
+		libbz2-dev \
+		libgdbm-dev \
+		libglib2.0-dev \
+		libncurses-dev \
+		libreadline-dev \
+		libxml2-dev \
+		libxslt-dev \
+		make \
+		ruby \
+		wget \
+		xz-utils \
+	&& rm -rf /var/lib/apt/lists/* \
+	\
+	&& wget -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz" \
+	&& echo "$RUBY_DOWNLOAD_SHA256 *ruby.tar.xz" | sha256sum -c - \
+	\
+	&& mkdir -p /usr/src/ruby \
+	&& tar -xJf ruby.tar.xz -C /usr/src/ruby --strip-components=1 \
+	&& rm ruby.tar.xz \
+	\
+	&& cd /usr/src/ruby \
 
 
 ::Rank_9
