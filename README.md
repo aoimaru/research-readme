@@ -5,6 +5,15 @@
 ```bash
 
 
+RUN command_1 && \
+    command_2 && \
+    ...
+    command_n-1 && \
+    command_n && \
+    ...
+
+
+
 
 [" command_1 ", " command_2 ", " command_3 "] --> ["RUN_N  "]
 [" command_2 ", " command_3 ", " command_4 "] --> ["RUN_N  "]
