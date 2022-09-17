@@ -5,6 +5,48 @@
 ```bash
 
 
+※rank1   :(RUN_4, 0.771160364151001)
+※rank2   :(RUN_n, 0.771160364151001)
+
+
+※rank10  :(RUN_2, 0.771160364151001)
+
+
+
+
+※　Rank2　:　0.771160364151001
+RUN set -ex \
+   && savedAptMark="$(apt-mark showmanual)" \
+   && apt-get update && apt-get install -y --no-install-recommends \
+	autoconf \
+	...
+	xz-utils \
+   && rm -rf /var/lib/apt/lists/* \
+   && wget -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz" \
+   && echo "$RUBY_DOWNLOAD_SHA256 *ruby.tar.xz" | sha256sum -c - \
+   && mkdir -p /usr/src/ruby \
+   && tar -xJf ruby.tar.xz -C /usr/src/ruby --strip-components=1 \
+   && rm ruby.tar.xz \
+　　　　　　&& cd /usr/src/ruby \
+
+
+
+
+
+
+
+※rank2   :('03d0ce54ce53227355e070a6d0d1ec1cdf986a29:10', 0.7534516453742981)
+※rank3   :('935fe6457daa80a4725e0e2bcd21db4bdd37cc8f:9', 0.7330055236816406)
+※rank4   :('3c3a790c2d100c1a02147c2917f018290135bf79:2', 0.7328020334243774)
+※rank5   :('a31b702830630aec34c396f7bdcbaf7705bb19ac:3', 0.7326844930648804)
+※rank6   :('c7dceeceb6a3dbedd26e1243868b82426711a4b1:4', 0.7316206097602844)
+※rank7   :('563edde6aed306c2ec107283e34155b7757c56dd:4', 0.7295385599136353)
+※rank8   :('5ee4ebe99baccc7ac504582d3ac820038862f479:1', 0.728958010673523)
+※rank9   :('cb159711f8fc0f0e82c1eeaca66744a7e11f41bc:2', 0.7215109467506409)
+※rank10  :('027de8dd9fb86c52209cb18af272ab6958a5eae5:7', 0.7181053161621094)
+
+
+
 RUN command_1 && \
     command_2 && \
     ...
