@@ -14,7 +14,8 @@
 
 
 
-※　Rank2　:　0.771160364151001
+Rank2　:　0.771160364151001
+
 RUN set -ex \
    && savedAptMark="$(apt-mark showmanual)" \
    && apt-get update && apt-get install -y --no-install-recommends \
