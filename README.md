@@ -6,6 +6,15 @@
 
 
 
+[" command_1 ", " command_2 ", " command_3 "] --> ["RUN_N  "]
+[" command_2 ", " command_3 ", " command_4 "] --> ["RUN_N  "]
+
+
+["command_N-2", "command_N-1", " command_N "] --> ["RUN_N  "]
+[" command_1 ", " command_2 ", " command_3 "] --> ["RUN_N+1"]
+[" command_2 ", " command_3 ", " command_4 "] --> ["RUN_N+1"]
+
+
 RUN set -x \
     ...
     && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
