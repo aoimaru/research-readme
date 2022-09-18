@@ -1,6 +1,20 @@
 ### original Dockerfile
 
 
+```bash
+
+RUN set -x \
+	...
+	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
+	&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
+	&& export GNUPGHOME="$(mktemp -d)" \
+	&& gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+	&& gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
+	...
+	
+	
+```
+
 1. 初めに \
 近年, コンテナ型の仮想化技術のプラットフォームとしてDockerが注目されている. 
 Dockerはインフラ構築の自動化を可能にする技術の1つであり, コンテナの構築手順をDockerfileと呼ばれるファイルに記述する. 
